@@ -22,7 +22,6 @@ export const awsSecretAccessKey = AWS_SECRET_KEY_ACCESS;
 export const awsBucketName = AWS_BUCKET;
 
 // Zoom Integration Testing
-
 export const APIKey = ZOOM_API_KEY;
 
 export const APISecret = ZOOM_API_SECRET_KEY;
