@@ -37,8 +37,8 @@ export async function createTeacherBankDetails(req, res, next) {
 
 export async function getTeacherBankDetails(req, res, next) {
   try {
-    const data = req.query.userId;
-    const bankDetails = await teacherBankDetails.findOne({ userId: data });
+    const data = req.query.teacherId;
+    const bankDetails = await teacherBankDetails.findOne({ teacherId: data });
     res.status(200).json({
       message: "Get Teacher Bank Details",
       data: bankDetails,

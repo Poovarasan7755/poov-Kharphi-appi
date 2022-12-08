@@ -18,6 +18,7 @@ import {
   updateCourse,
   UpdateCourseImage,
   courseDetail,
+  adminCourseDetail,
 } from "../controllers/courseController.js";
 
 router.route("/").post(verifyToken, courseCreation);
@@ -47,5 +48,6 @@ router.route("/image/upload").patch(verifyToken, courseImage);
 router.route("/image/update/:id").patch(verifyToken, UpdateCourseImage);
 
 router.route("/detail/:id").get(verifyToken, courseDetail);
+router.route("/detail/admin/:id").get(verifyToken, adminCourseDetail);
 
 export default router;

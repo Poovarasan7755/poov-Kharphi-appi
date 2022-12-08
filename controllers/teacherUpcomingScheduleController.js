@@ -26,7 +26,7 @@ export async function getTeacherUpcomingSchedule(req, res, next) {
       .find({
         teacherId: teacherId,
         start: { $gte: currentTimeAndDate },
-        status:"CourseSchedule"
+        status: "CourseSchedule",
       })
       .populate("courseScheduleId")
       .populate("courseLessonId")
@@ -55,7 +55,7 @@ export async function getTeacherUpcomingSchedule(req, res, next) {
       length: upcomingList.length,
       message: "List Of Upcoming Courses",
       upcomingList,
-      upcomingCalendarList
+      upcomingCalendarList,
     });
   } catch (error) {
     next(error);
@@ -100,6 +100,7 @@ export async function getTeacherCompletedSchedule(req, res, next) {
 export async function getTeacherUpcomingScheduleBasedonSchedule(req, res, next) {
   try {
     const teacherId = req.query.teacherId;
+
     const scheduleId = req.query.courseScheduleId;
     const date = new Date();
     const newDate = moment(date).tz("America/Chicago").format();
@@ -113,10 +114,10 @@ export async function getTeacherUpcomingScheduleBasedonSchedule(req, res, next) 
         courseScheduleId: scheduleId,
         $or: [
           {
-            $and: [{ timeStamp: currentDate }, { lessonEndTime: { $gt: currentTime } }],
+            $and: [{ timeStamp: currentDate }, { lessonEndTime: { $gte: currentTime } }],
           },
           {
-            timeStamp: { $gt: currentDate },
+            timeStamp: { $gte: currentDate },
           },
         ],
       })
@@ -320,18 +321,13 @@ export async function updateTeacherInList(req, res, next) {
       }
     });
     if (existingSchedule.length === 0) {
-      const upcomingList = await teacherUpcomingSchedule.findByIdAndUpdate(
-        data.teacherScheduleId,
-        {
-          teacherId: data.teacherId,
-        }
-      );
-      const updateTeacherAvailability =
-        await teacherAvailability.findByIdAndUpdate(
-          teacherAvailabilityDetail._id,
-          { teacherId: data.teacherId }
-        );
-      const teacherData = await Teacher.findOne({ _id : data.teacherId });
+      const upcomingList = await teacherUpcomingSchedule.findByIdAndUpdate(data.teacherScheduleId, {
+        teacherId: data.teacherId,
+      });
+      const updateTeacherAvailability = await teacherAvailability.findByIdAndUpdate(teacherAvailabilityDetail._id, {
+        teacherId: data.teacherId,
+      });
+      const teacherData = await Teacher.findOne({ _id: data.teacherId });
 
       // Email Notifications start
       const teacherUpdate = {

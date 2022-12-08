@@ -26,9 +26,7 @@ export async function payBillingAsParent(req, res, next) {
       courseScheduleId: data.courseScheduleId,
     });
     const date = Date.now();
-    const createdAt = moment(date)
-      .tz("America/Chicago")
-      .format("lll");
+    const createdAt = moment(date).tz("America/Chicago").format("lll");
 
     if (exist.length === 0) {
       const billing = await Billing.create({
@@ -123,9 +121,7 @@ export async function payBillingAsStudent(req, res, next) {
       courseScheduleId: data.courseScheduleId,
     });
     const date = Date.now();
-    const createdAt = moment(date)
-      .tz("America/Chicago")
-      .format("lll");
+    const createdAt = moment(date).tz("America/Chicago").format("lll");
 
     if (exist.length === 0) {
       const billing = await Billing.create({
@@ -226,9 +222,7 @@ export async function parentCheckoutLesson(req, res, next) {
         lessonId: lessonIds[i].id,
       });
       const date = Date.now();
-      const createdAt = moment(date)
-        .tz("America/Chicago")
-        .format("lll");
+      const createdAt = moment(date).tz("America/Chicago").format("lll");
 
       if (exist.length === 0) {
         const billingLesson = await Billing.create({
@@ -270,7 +264,6 @@ export async function parentCheckoutLesson(req, res, next) {
 export async function studentCheckoutLesson(req, res, next) {
   try {
     const data = req.body;
-
     let lessonIds = [];
     lessonIds = data.lessonId;
 
@@ -283,9 +276,7 @@ export async function studentCheckoutLesson(req, res, next) {
       });
 
       const date = Date.now();
-      const createdAt = moment(date)
-        .tz("America/Chicago")
-        .format("lll");
+      const createdAt = moment(date).tz("America/Chicago").format("lll");
 
       if (exist.length === 0) {
         const billingLesson = await Billing.create({
@@ -401,7 +392,6 @@ export async function createStripePayment(req, res, next) {
 export async function createStripePaymentForLesson(req, res, next) {
   try {
     const { currency, price, studentId, courseId, courseScheduleId, lessonId } = req.body;
-
     for (let i = 0; i < lessonId.length; i++) {
       const exist = await Billing.find({
         studentId: studentId,

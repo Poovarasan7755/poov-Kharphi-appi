@@ -421,6 +421,8 @@ export async function courseDetail(req, res, next) {
   try {
     const id = req.params.id;
     const data = req.query;
+    const parentId = data.parentId;
+    const studentId = data.studentId;
     const courseDetail = await Course.findOne({ aliasName: id }).populate("category");
     const updateFavouriteCourse = await FavouriteCourse.find({
       userId: data.userId,
@@ -432,7 +434,7 @@ export async function courseDetail(req, res, next) {
       courseId: courseDetail._id,
     });
 
-    if (data.parentId) {
+    if (data.role === "parent") {
       lessonDetail.map(async (list, key) => {
         const checkoutData = await Billing.find({
           lessonId: list._id,
@@ -454,14 +456,15 @@ export async function courseDetail(req, res, next) {
             studentId: data.studentId,
             parentId: data.parentId,
           });
-          if (courseDetail.id == checkoutData.courseId) {
+
+          if (courseDetail.id == checkoutData?.courseId) {
             Object.assign(lessonDetail[key], { isCheckout: true });
           } else {
             Object.assign(lessonDetail[key], { isCheckout: false });
           }
         }
       });
-    } else if (data.studentId) {
+    } else if (data.role === "student") {
       lessonDetail.map(async (list, key) => {
         const checkoutData = await Billing.find({
           lessonId: list._id,
@@ -509,7 +512,6 @@ export async function courseDetail(req, res, next) {
       });
     }
 
-
     const date = new Date();
     const newDate = moment(date)
       .tz("America/Chicago")
@@ -526,6 +528,7 @@ export async function courseDetail(req, res, next) {
       studentId: data.studentId,
       courseId: courseDetail.id,
     });
+
 
     // const checkoutTrue = await courseCheckout.isCourseChecout;
     // console.log("checkoutTrue", checkoutTrue);
@@ -545,6 +548,35 @@ export async function courseDetail(req, res, next) {
         scheduleDetail,
         favourite,
         courseCheckout,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function adminCourseDetail(req, res, next) {
+  try {
+    const id = req.params.id;
+    const data = req.query;
+   ;
+
+    const courseDetail = await Course.findOne({ aliasName: id }).populate("category");
+    const lessonDetail = await courseLesson.find({
+      courseId: courseDetail._id,
+    });
+    const scheduleDetail = await courseSchedule
+      .find({ courseId: courseDetail._id })
+      .populate("teacherId")
+      .populate({ path: "courseId", populate: "category" });
+
+    res.status(200).json({
+      status: 200,
+      message: "Course Detail List",
+      data: {
+        courseDetail,
+        lessonDetail,
+        scheduleDetail,
       },
     });
   } catch (error) {

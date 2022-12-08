@@ -63,7 +63,7 @@ export async function login(req, res, next) {
               }
               const userData = await User.findOne({ _id: user._id });
               const tokenId = jwt.sign({ email: user.email }, TOKEN_KEY, {
-                expiresIn: "25m",
+                expiresIn: "60m",
               });
 
               const editedUser = {
