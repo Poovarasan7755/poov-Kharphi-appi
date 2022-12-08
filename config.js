@@ -8,7 +8,6 @@ const {
   AWS_KEY_ID,
   AWS_SECRET_KEY_ACCESS,
   AWS_BUCKET,
-  AWS_REGION,
   ZOOM_API_KEY,
   ZOOM_API_SECRET_KEY,
   SESSION_TOKEN,
@@ -16,7 +15,7 @@ const {
 } = process.env;
 
 // AWS Settings
-export const awsRegion = AWS_REGION || "ap-south-1";
+export const awsRegion = "ap-south-1";
 export const awsAccessKeyId = AWS_KEY_ID;
 export const awsSecretAccessKey = AWS_SECRET_KEY_ACCESS;
 export const awsBucketName = AWS_BUCKET;
