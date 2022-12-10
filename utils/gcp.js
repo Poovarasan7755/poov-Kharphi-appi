@@ -17,12 +17,12 @@ export function uploadBase64FileToGcp(base64, newPath, callback) {
   const bucket = storage.bucket("aviartech"); // Get this from Google Cloud -> Storage
 
   const blob = bucket.file(newPath);
+  const blobStream = blob.createWriteStream();
 
   let baseUrl = blob.storage.apiEndpoint;
   const publicUrl = `${baseUrl}/aviartech/${blob.name}`;
 
   // const blobStream = blob.createWriteStream();
-  const blobStream = blob.createWriteStream({ resumable: false });
 
   blobStream
     .on("finish", () => {
