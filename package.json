@@ -45,7 +45,8 @@
     "stripe": "^8.188.0",
     "validator": "^13.7.0",
     "xoauth2": "^1.2.0",
-    "xss-clean": "^0.1.1"
+    "xss-clean": "^0.1.1",
+    "@google-cloud/storage": "^5.18.3"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",

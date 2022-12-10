@@ -34,6 +34,7 @@ export function getPublicImagUrl(filePath) {
  * @param callback
  */
 export function uploadBase64File(base64, newPath, callback) {
+  console.log("newPath", newPath);
   //const buffer = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");
 
   const buffer = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");

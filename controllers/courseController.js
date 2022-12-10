@@ -3,12 +3,35 @@ import Category from "../models/categoryModel.js";
 import courseSchedule from "../models/courseScheduleModel.js";
 import moment from "moment-timezone";
 import { getPublicImagUrl, uploadBase64File } from "../utils/s3.js";
+import { uploadBase64FileToGcp } from "../utils/gcp.js";
 import courseLesson from "../models/courseLessonModel.js";
 import { getAll, getOne, deleteOne, updateOne } from "./baseController.js";
 import course from "../models/courseModel.js";
 import Billing from "../models/billingModel.js";
 import FavouriteCourse from "../models/favouriteCourse.js";
 import user from "../models/userModel.js";
+//Google cloud
+import { Storage } from "@google-cloud/storage";
+import Multer from "multer";
+
+//const { Storage } = require("@google-cloud/storage");
+//const Multer = require("multer");
+
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // No larger than 5mb, change as you need
+  },
+});
+
+let projectId = "relisafe-api"; // Get this from Google Cloud
+let keyFilename = "googlekey";
+// Get this from Google Cloud -> Credentials -> Service Accounts
+const storage = new Storage({
+  projectId,
+  keyFilename,
+});
+const bucket = storage.bucket("aviartech"); // Get this from Google Cloud -> Storage
 
 export async function courseCreation(req, res, next) {
   try {
@@ -379,24 +402,39 @@ export async function courseImage(req, res, next) {
   try {
     const courseId = req.body.courseId;
     const file = req.body.image;
-    const course_PATH = "media/course";
+    const course_PATH = "kharphi";
     const type = file && file.split(";")[0].split("/")[1];
     const random = new Date().getTime();
     const fileName = `${courseId}-${random}.${type}`;
     const filePath = `${course_PATH}/${fileName}`;
+    console.log("filePath", filePath);
     const courseDetails = await Course.findById(courseId);
     if (!courseDetails) {
       return next(new Error("course not found"));
     }
 
+    // if (file) {
+    //   console.log("File found, trying to upload...");
+    //   const blob = bucket.file(fileName);
+    //   const blobStream = blob.createWriteStream();
+
+    //   blobStream.on("finish", () => {
+    //     res.status(200).send("Success");
+    //     console.log("Success");
+    //   });
+    //   blobStream.end(req.file.buffer);
+    //   console.log("blobStream :>> ", blobStream);
+    // } else throw "error with img";
+
     // Upload file
-    uploadBase64File(file, filePath, async (err, mediaPath) => {
+    uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
       if (err) {
         return callback(err);
       }
+      console.log("mediaPath.....", mediaPath);
       Course.updateOne(
         { _id: courseId }, // Filter
-        { imageUrl: getPublicImagUrl(mediaPath) } // Update
+        { imageUrl: mediaPath } // Update
       )
         .then((obj) => {
           res.status(201).json({
@@ -513,12 +551,8 @@ export async function courseDetail(req, res, next) {
     }
 
     const date = new Date();
-    const newDate = moment(date)
-      .tz("America/Chicago")
-      .format();
-    const currentDate = moment(newDate)
-      .tz("America/Chicago")
-      .format("ll");
+    const newDate = moment(date).tz("America/Chicago").format();
+    const currentDate = moment(newDate).tz("America/Chicago").format("ll");
     const scheduleDetail = await courseSchedule
       .find({ courseId: courseDetail._id })
       .populate("teacherId")
@@ -528,7 +562,6 @@ export async function courseDetail(req, res, next) {
       studentId: data.studentId,
       courseId: courseDetail.id,
     });
-
 
     // const checkoutTrue = await courseCheckout.isCourseChecout;
     // console.log("checkoutTrue", checkoutTrue);
@@ -559,8 +592,6 @@ export async function adminCourseDetail(req, res, next) {
   try {
     const id = req.params.id;
     const data = req.query;
-   ;
-
     const courseDetail = await Course.findOne({ aliasName: id }).populate("category");
     const lessonDetail = await courseLesson.find({
       courseId: courseDetail._id,

@@ -12,7 +12,10 @@ import {
 } from "../controllers/teacherApplicationController.js";
 import { verifyToken } from "../utils/tokenAuth.js";
 
-router.route("/").post(verifyToken, createTeacherApplication).get(verifyToken, getAllTeacherApplication);
+router
+  .route("/")
+  .post(verifyToken, createTeacherApplication)
+  .get(verifyToken, getAllTeacherApplication);
 
 router
   .route("/:id")
