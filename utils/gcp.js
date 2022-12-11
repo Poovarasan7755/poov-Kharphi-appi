@@ -13,7 +13,7 @@ export function uploadBase64FileToGcp(base64, newPath, callback) {
 
   let projectId = "relisafe-api"; // Get this from Google Cloud
   console.log("projectId", projectId);
-  let keyFilename = "./googlekey.json";
+  let keyFilename = "googlekey.json";
   console.log("keyFilename", keyFilename);
 
   // Get this from Google Cloud -> Credentials -> Service Accounts
