@@ -2,6 +2,8 @@ import { Storage } from "@google-cloud/storage";
 import { resolve } from "path";
 import util from "util";
 
+
+
 const { format } = util;
 
 export function uploadBase64FileToGcp(base64, newPath, callback) {
@@ -11,7 +13,7 @@ export function uploadBase64FileToGcp(base64, newPath, callback) {
 
   let projectId = "relisafe-api"; // Get this from Google Cloud
   console.log("projectId", projectId);
-  let keyFilename = "googlekey.json";
+  let keyFilename = "utils/googlekey.json";
   console.log("keyFilename", keyFilename);
 
   // Get this from Google Cloud -> Credentials -> Service Accounts
