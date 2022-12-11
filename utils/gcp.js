@@ -1,8 +1,7 @@
 import { Storage } from "@google-cloud/storage";
+import { rejects } from "assert";
 import { resolve } from "path";
 import util from "util";
-
-
 
 const { format } = util;
 
@@ -12,9 +11,7 @@ export function uploadBase64FileToGcp(base64, newPath, callback) {
   const buffer = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");
 
   let projectId = "relisafe-api"; // Get this from Google Cloud
-  console.log("projectId", projectId);
-  let keyFilename = "utils/googlekey.json";
-  console.log("keyFilename", keyFilename);
+  let keyFilename = "./googlekey.json";
 
   // Get this from Google Cloud -> Credentials -> Service Accounts
   const storage = new Storage({
@@ -33,14 +30,12 @@ export function uploadBase64FileToGcp(base64, newPath, callback) {
   // const blobStream = blob.createWriteStream();
 
   blobStream
-    .on("finish", (res) => {
-      console.log("res", res);
+    .on("finish", () => {
       const publicUrl = format(`${blob.storage.apiEndpoint}/${blob.name}`);
       resolve(publicUrl);
     })
-    .on("error", (err) => {
-      console.log("err", err);
-      // reject(`Unable to upload image, something went wrong`);
+    .on("error", () => {
+       rejects(`Unable to upload image, something went wrong`);
     })
     .end(buffer);
 
