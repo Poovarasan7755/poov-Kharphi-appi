@@ -402,11 +402,17 @@ export async function courseImage(req, res, next) {
   try {
     const courseId = req.body.courseId;
     const file = req.body.image;
+
     const course_PATH = "kharphi";
     const type = file && file.split(";")[0].split("/")[1];
+
+    console.log("type", type);
     const random = new Date().getTime();
     const fileName = `${courseId}-${random}.${type}`;
+
+    console.log("fileName", fileName);
     const filePath = `${course_PATH}/${fileName}`;
+
     console.log("filePath", filePath);
     const courseDetails = await Course.findById(courseId);
     if (!courseDetails) {
