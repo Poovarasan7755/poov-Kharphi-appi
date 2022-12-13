@@ -22,6 +22,7 @@ import jwt from "jsonwebtoken";
 import { TOKEN_KEY } from "../config.js";
 
 import sendMail from "../utils/sendMail.js";
+import { uploadBase64FileToGcp } from "../utils/gcp.js";
 
 const { FROM_EMAIL, FROM_EMAIL_DISPLAY_NAME } = process.env;
 
@@ -395,9 +396,7 @@ export async function studentUpcomingList(req, res, next) {
         const newDate = moment(lessonDate, "ll").add(7 * i, "days");
 
         const date = moment(newDate).format();
-        const timeStamp = moment(date)
-          .utc()
-          .format();
+        const timeStamp = moment(date).utc().format();
         const edit = moment(newDate).format("ll");
 
         const exist = await upcomingSchedule.find({
@@ -491,9 +490,7 @@ export async function studentUpcomingList(req, res, next) {
         const newDate = moment(lessonDate, "ll").add(7 * i, "days");
 
         const date = moment(newDate).format();
-        const timeStamp = moment(date)
-          .utc()
-          .format();
+        const timeStamp = moment(date).utc().format();
         const edit = moment(newDate).format("ll");
 
         const exist = await upcomingSchedule.find({
@@ -610,7 +607,7 @@ export async function studentProfileImage(req, res, next) {
       return next(new Error("student not found"));
     }
 
-    uploadBase64File(file, filePath, async (err, mediaPath) => {
+    uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
       if (err) {
         return callback(err);
       }
@@ -667,15 +664,9 @@ export async function ActiveEnrollList(req, res, next) {
   try {
     const data = req.query;
     const date = new Date();
-    const newDate = moment(date)
-      .tz("America/Chicago")
-      .format();
-    const currentDate = moment(newDate)
-      .tz("America/Chicago")
-      .format("ll");
-    const currentTime = moment(newDate)
-      .tz("America/Chicago")
-      .format("HH:mm");
+    const newDate = moment(date).tz("America/Chicago").format();
+    const currentDate = moment(newDate).tz("America/Chicago").format("ll");
+    const currentTime = moment(newDate).tz("America/Chicago").format("HH:mm");
     const query = data.studentId ? { studentId: data.studentId } : { parentId: data.parentId };
 
     const checkoutList = await Billing.find(query)
@@ -747,15 +738,9 @@ export async function completedCourseList(req, res, next) {
   try {
     const data = req.query;
     const date = new Date();
-    const newDate = moment(date)
-      .tz("America/Chicago")
-      .format();
-    const currentDate = moment(newDate)
-      .tz("America/Chicago")
-      .format("ll");
-    const currentTime = moment(newDate)
-      .tz("America/Chicago")
-      .format("HH:mm");
+    const newDate = moment(date).tz("America/Chicago").format();
+    const currentDate = moment(newDate).tz("America/Chicago").format("ll");
+    const currentTime = moment(newDate).tz("America/Chicago").format("HH:mm");
 
     const query = data.studentId ? { studentId: data.studentId } : { parentId: data.parentId };
 

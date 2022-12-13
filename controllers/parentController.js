@@ -14,6 +14,7 @@ import user from "../models/userModel.js";
 import sendMail from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
 import { TOKEN_KEY } from "../config.js";
+import { uploadBase64FileToGcp } from "../utils/gcp.js";
 
 const { FROM_EMAIL, FROM_EMAIL_DISPLAY_NAME } = process.env;
 
@@ -402,7 +403,7 @@ export async function parentProfileImage(req, res, next) {
       return next(new Error("parent not found"));
     }
 
-    uploadBase64File(file, filePath, async (err, mediaPath) => {
+    uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
       if (err) {
         return callback(err);
       }
@@ -443,9 +444,7 @@ export async function changeStudentActiveStatus(req, res, next) {
     const data = req.body;
 
     const date = Date.now();
-    const currentDate = moment(date)
-      .tz("America/Chicago")
-      .format("ll");
+    const currentDate = moment(date).tz("America/Chicago").format("ll");
     const courseList = await upcomingSchedule.find({
       timeStamp: { $gte: currentDate },
       studentId: data.studentId,

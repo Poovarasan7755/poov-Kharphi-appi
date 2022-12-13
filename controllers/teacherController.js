@@ -13,6 +13,7 @@ const client = new OAuth2Client("901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.a
 import sendMail from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
 import { TOKEN_KEY } from "../config.js";
+import { uploadBase64FileToGcp } from "../utils/gcp.js";
 
 const { FROM_EMAIL, FROM_EMAIL_DISPLAY_NAME } = process.env;
 
@@ -386,7 +387,7 @@ export async function teacherImage(req, res, next) {
       return next(new Error("teacher not found"));
     }
 
-    uploadBase64File(file, filePath, async (err, mediaPath) => {
+    uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
       if (err) {
         return callback(err);
       }

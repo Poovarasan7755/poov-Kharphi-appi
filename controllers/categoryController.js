@@ -2,6 +2,7 @@ import Category from "../models/categoryModel.js";
 import { getPublicImagUrl, uploadBase64File } from "../utils/s3.js";
 import { getAll, getOne, deleteOne, updateOne } from "./baseController.js";
 import moment from "moment-timezone";
+import { uploadBase64FileToGcp } from "../utils/gcp.js";
 
 export async function createCategory(req, res, next) {
   try {
@@ -62,25 +63,25 @@ export async function categoryImage(req, res, next) {
     }
 
     // Upload file
-    uploadBase64File(file, filePath, async (err, mediaPath) => {
-      if (err) {
-        return callback(err);
-      }
-      Category.updateOne({ _id: categoryId }, { imageUrl: getPublicImagUrl(mediaPath) })
-        .then((obj) => {
-          res.status(201).json({
-            status: "Created",
-            message: "Category Image Updated Successfully",
+uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
+  if (err) {
+    return callback(err);
+  }
+  Category.updateOne({ _id: categoryId }, { imageUrl: getPublicImagUrl(mediaPath) })
+    .then((obj) => {
+      res.status(201).json({
+        status: "Created",
+        message: "Category Image Updated Successfully",
 
-            data: {
-              categoryDetails,
-            },
-          });
-        })
-        .catch((err) => {
-          console.log("Error: " + err);
-        });
+        data: {
+          categoryDetails,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log("Error: " + err);
     });
+});
   } catch (err) {
     next(err);
   }
