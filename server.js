@@ -27,6 +27,7 @@ inputOutput.on("connection", (socket) => {
       const random = new Date().getTime();
       const fileName = `${message.senderId}-${random}.${type}`;
       const filePath = `${chat_PATH}/${fileName}`;
+
       uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
         if (err) {
           return callback(err);

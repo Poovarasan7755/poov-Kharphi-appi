@@ -31,7 +31,7 @@ const storage = new Storage({
   projectId,
   keyFilename,
 });
-const bucket = storage.bucket("aviartech"); // Get this from Google Cloud -> Storage
+const bucket = storage.bucket("shanthi-swarnamahal"); // Get this from Google Cloud -> Storage
 
 export async function courseCreation(req, res, next) {
   try {

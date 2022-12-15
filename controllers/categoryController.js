@@ -63,25 +63,25 @@ export async function categoryImage(req, res, next) {
     }
 
     // Upload file
-uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
-  if (err) {
-    return callback(err);
-  }
-  Category.updateOne({ _id: categoryId }, { imageUrl: getPublicImagUrl(mediaPath) })
-    .then((obj) => {
-      res.status(201).json({
-        status: "Created",
-        message: "Category Image Updated Successfully",
+    uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
+      if (err) {
+        return callback(err);
+      }
+      Category.updateOne({ _id: categoryId }, { imageUrl: getPublicImagUrl(mediaPath) })
+        .then((obj) => {
+          res.status(201).json({
+            status: "Created",
+            message: "Category Image Updated Successfully",
 
-        data: {
-          categoryDetails,
-        },
-      });
-    })
-    .catch((err) => {
-      console.log("Error: " + err);
+            data: {
+              categoryDetails,
+            },
+          });
+        })
+        .catch((err) => {
+          console.log("Error: " + err);
+        });
     });
-});
   } catch (err) {
     next(err);
   }
@@ -100,7 +100,6 @@ export async function getCategoryList(req, res, next) {
     next(error);
   }
 }
-
 
 export const getAllCategory = getAll(Category);
 export const updateCategory = updateOne(Category);

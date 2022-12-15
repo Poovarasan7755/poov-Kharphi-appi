@@ -55,7 +55,7 @@ export async function signUp(req, res, next) {
               // const tokenId = getRandomNumberForMail();
 
               const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
-                expiresIn: "25m",
+                expiresIn: "60m",
               });
 
               const studentLogin = await User.create({
@@ -130,7 +130,7 @@ export async function signUp(req, res, next) {
           const studentId = student._id;
           // const tokenId = getRandomNumberForMail();
           const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
-            expiresIn: "25m",
+            expiresIn: "60m",
           });
           const studentLogin = await User.create({
             firstName: firstName,
@@ -214,7 +214,7 @@ export async function signUp(req, res, next) {
 
         // const tokenId = getRandomNumberForMail();
         const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
-          expiresIn: "25m",
+          expiresIn: "60m",
         });
 
         const studentLogin = await User.create({
@@ -606,7 +606,6 @@ export async function studentProfileImage(req, res, next) {
     if (!studentDetails) {
       return next(new Error("student not found"));
     }
-
     uploadBase64FileToGcp(file, filePath, async (err, mediaPath) => {
       if (err) {
         return callback(err);

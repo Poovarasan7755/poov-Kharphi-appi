@@ -45,7 +45,7 @@ export async function teacherSignUp(req, res, next) {
 
               // const tokenId = getRandomNumberForMail();
               const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
-                expiresIn: "25m",
+                expiresIn: "60m",
               });
 
               const teacherLogin = await User.create({
@@ -97,7 +97,7 @@ export async function teacherSignUp(req, res, next) {
 
           // const tokenId = getRandomNumberForMail();
           const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
-            expiresIn: "25m",
+            expiresIn: "60m",
           });
 
           const teacherLogin = await User.create({
@@ -178,7 +178,7 @@ export async function teacherSignUp(req, res, next) {
         // const tokenId = getRandomNumberForMail();
 
         const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
-          expiresIn: "25m",
+          expiresIn: "60m",
         });
 
         const teacherLogin = await User.create({

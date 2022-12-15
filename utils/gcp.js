@@ -2,8 +2,6 @@ import { Storage } from "@google-cloud/storage";
 import { resolve } from "path";
 import util from "util";
 
-
-
 const { format } = util;
 
 export function uploadBase64FileToGcp(base64, newPath, callback) {
@@ -22,13 +20,13 @@ export function uploadBase64FileToGcp(base64, newPath, callback) {
     keyFilename,
   });
 
-  const bucket = storage.bucket("aviartech"); // Get this from Google Cloud -> Storage
+  const bucket = storage.bucket("shanthi-swarnamahal"); // Get this from Google Cloud -> Storage
 
   const blob = bucket.file(newPath);
   const blobStream = blob.createWriteStream();
 
   let baseUrl = blob.storage.apiEndpoint;
-  const publicUrl = `${baseUrl}/aviartech/${blob.name}`;
+  const publicUrl = `${baseUrl}/shanthi-swarnamahal/${blob.name}`;
 
   // const blobStream = blob.createWriteStream();
 
@@ -39,7 +37,7 @@ export function uploadBase64FileToGcp(base64, newPath, callback) {
       resolve(publicUrl);
     })
     .on("error", (err) => {
-      console.log("err", err);
+      console.log("err local", err);
       // reject(`Unable to upload image, something went wrong`);
     })
     .end(buffer);

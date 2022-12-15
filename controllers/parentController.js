@@ -98,7 +98,7 @@ export async function signUp(req, res, next) {
 
           // const tokenId = getRandomNumberForMail();
           const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
-            expiresIn: "25m",
+            expiresIn: "60m",
           });
 
           const parentLogin = await User.create({
@@ -148,7 +148,7 @@ export async function signUp(req, res, next) {
 
         // const tokenId = getRandomNumberForMail();
         const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
-          expiresIn: "25m",
+          expiresIn: "60m",
         });
 
         const parentLogin = await User.create({
@@ -444,7 +444,9 @@ export async function changeStudentActiveStatus(req, res, next) {
     const data = req.body;
 
     const date = Date.now();
-    const currentDate = moment(date).tz("America/Chicago").format("ll");
+    const currentDate = moment(date)
+      .tz("America/Chicago")
+      .format("ll");
     const courseList = await upcomingSchedule.find({
       timeStamp: { $gte: currentDate },
       studentId: data.studentId,
