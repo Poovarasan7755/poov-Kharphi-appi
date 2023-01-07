@@ -597,7 +597,7 @@ export async function studentProfileImage(req, res, next) {
   try {
     const studentId = req.body.studentId;
     const file = req.body.image;
-    const student_PATH = "media/student";
+    const student_PATH = "kharphi";
     const type = file && file.split(";")[0].split("/")[1];
     const random = new Date().getTime();
     const fileName = `${studentId}-${random}.${type}`;
@@ -610,6 +610,8 @@ export async function studentProfileImage(req, res, next) {
       if (err) {
         return callback(err);
       }
+      console.log("mediaPath.....", mediaPath);
+
       Student.findByIdAndUpdate({ _id: studentId }, { imageUrl: getPublicImagUrl(mediaPath) })
         .then((obj) => {
           res.status(201).json({

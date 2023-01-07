@@ -393,7 +393,7 @@ export async function parentProfileImage(req, res, next) {
   try {
     const parentId = req.body.parentId;
     const file = req.body.image;
-    const parent_PATH = "media/parent";
+    const parent_PATH = "kharphi";
     const type = file && file.split(";")[0].split("/")[1];
     const random = new Date().getTime();
     const fileName = `${parentId}-${random}.${type}`;

@@ -377,7 +377,7 @@ export async function teacherImage(req, res, next) {
   try {
     const teacherId = req.body.teacherId;
     const file = req.body.image;
-    const teacher_PATH = "media/teacher";
+    const teacher_PATH = "kharphi";
     const type = file && file.split(";")[0].split("/")[1];
     const random = new Date().getTime();
     const fileName = `${teacherId}-${random}.${type}`;

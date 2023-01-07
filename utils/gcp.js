@@ -9,7 +9,7 @@ export function uploadBase64FileToGcp(base64, newPath, callback) {
 
   const buffer = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");
 
-  let projectId = "relisafe-api"; // Get this from Google Cloud
+  let projectId = "t-bounty-371604"; // Get this from Google Cloud
   console.log("projectId", projectId);
   let keyFilename = "utils/googlekey.json";
   console.log("keyFilename", keyFilename);

@@ -51,8 +51,9 @@ export async function categoryImage(req, res, next) {
   try {
     const categoryId = req.body.categoryId;
     const file = req.body.image;
+    console.log("category");
 
-    const category_PATH = "media/category";
+    const category_PATH = "kharphi";
     const type = file && file.split(";")[0].split("/")[1];
     const random = new Date().getTime();
     const fileName = `${categoryId}-${random}.${type}`;
@@ -67,6 +68,8 @@ export async function categoryImage(req, res, next) {
       if (err) {
         return callback(err);
       }
+      console.log("mediaPath.....", mediaPath);
+
       Category.updateOne({ _id: categoryId }, { imageUrl: getPublicImagUrl(mediaPath) })
         .then((obj) => {
           res.status(201).json({

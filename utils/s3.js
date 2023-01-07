@@ -23,7 +23,8 @@ const s3 = new AWS.S3();
  * @returns
  */
 export function getPublicImagUrl(filePath) {
-  return `https://${awsBucketName}.s3.ap-south-1.amazonaws.com/${filePath}`;
+  // return `https://${awsBucketName}.s3.ap-south-1.amazonaws.com/${filePath}`;
+  return filePath;
 }
 
 /**
