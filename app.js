@@ -40,7 +40,6 @@ import favouriteCourseRoutes from "./routes/favouriteCourseRoutes.js";
 import forumRoutes from "./routes/forumRoutes.js";
 import forumConversationRoutes from "./routes/forumConversationRoutes.js";
 
-
 const app = express();
 
 // Allow Cross-Origin requests
@@ -120,7 +119,6 @@ app.use("/api/v1/teacherAvailability", teacherAvailabilityRoutes);
 
 app.use("/api/v1/teacherApplication", teacherApplicationRoutes);
 
-
 app.use("/api/v1/chat", chatRoutes);
 
 app.use("/api/v1/chatbot", chatBotRoutes);
@@ -130,7 +128,6 @@ app.use("/api/v1/forum", forumRoutes);
 app.use("/api/v1/forum/conversation", forumConversationRoutes);
 
 app.use("/api/v1/favouriteCourse", favouriteCourseRoutes);
-
 
 // handle undefined Routes
 app.use("*", (req, res, next) => {
