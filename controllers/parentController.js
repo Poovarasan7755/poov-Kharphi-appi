@@ -444,9 +444,7 @@ export async function changeStudentActiveStatus(req, res, next) {
     const data = req.body;
 
     const date = Date.now();
-    const currentDate = moment(date)
-      .tz("America/Chicago")
-      .format("ll");
+    const currentDate = moment(date).tz("America/Chicago").format("ll");
     const courseList = await upcomingSchedule.find({
       timeStamp: { $gte: currentDate },
       studentId: data.studentId,

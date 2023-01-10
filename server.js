@@ -22,7 +22,7 @@ inputOutput.on("connection", (socket) => {
   socket.on("chat message", async (message) => {
     if (message.imageUrl) {
       const file = message.imageUrl;
-      const chat_PATH = "media/chat";
+      const chat_PATH = "kharphi";
       const type = file && file.split(";")[0].split("/")[1];
       const random = new Date().getTime();
       const fileName = `${message.senderId}-${random}.${type}`;
