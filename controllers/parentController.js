@@ -9,7 +9,7 @@ import Billing from "../models/billingModel.js";
 import { getPublicImagUrl, uploadBase64File } from "../utils/s3.js";
 import { OAuth2Client } from "google-auth-library";
 import moment from "moment";
-const client = new OAuth2Client("901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com");
+const client = new OAuth2Client("313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com");
 import user from "../models/userModel.js";
 import sendMail from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
@@ -21,11 +21,13 @@ const { FROM_EMAIL, FROM_EMAIL_DISPLAY_NAME } = process.env;
 export async function signUp(req, res, next) {
   try {
     const data = req.body;
+    console.log("data parent", data);
+
     if (data.isGoogleLogin) {
       client
         .verifyIdToken({
           idToken: data.tokenId,
-          audience: "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com",
+          audience: "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com",
         })
         .then(async (response) => {
           const { email_verified, email } = response.payload;

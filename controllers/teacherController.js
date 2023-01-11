@@ -9,7 +9,7 @@ import teacherUpcomingSchedule from "../models/teacherUpcomingScheduleModels.js"
 import Billing from "../models/billingModel.js";
 import moment from "moment-timezone";
 import { OAuth2Client } from "google-auth-library";
-const client = new OAuth2Client("901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com");
+const client = new OAuth2Client("313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com");
 import sendMail from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
 import { TOKEN_KEY } from "../config.js";
@@ -24,7 +24,7 @@ export async function teacherSignUp(req, res, next) {
       client
         .verifyIdToken({
           idToken: data.tokenId,
-          audience: "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com",
+          audience: "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com",
         })
         .then(async (response) => {
           const { email_verified, name, email } = response.payload;

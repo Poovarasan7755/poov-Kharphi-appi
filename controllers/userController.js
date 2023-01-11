@@ -8,7 +8,7 @@ import { getAll, getOne, deleteOne, createOne, updateOne } from "./baseControlle
 import getRandomNumberForMail from "../utils/sendEmail.js";
 import sendMail from "../utils/sendMail.js";
 const { JWT_SECRET, JWT_EXPIRES_IN } = process.env;
-const client = new OAuth2Client("901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com");
+const client = new OAuth2Client("313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com");
 import { OAuth2Client } from "google-auth-library";
 import student from "../models/studentModel.js";
 import { TOKEN_KEY } from "../config.js";
@@ -30,7 +30,7 @@ export async function login(req, res, next) {
       client
         .verifyIdToken({
           idToken: data.tokenId,
-          audience: "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com",
+          audience: "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com",
         })
         .then(async (response) => {
           const { email_verified, name, email } = response.payload;
@@ -119,7 +119,6 @@ export async function login(req, res, next) {
 
         const tokenId = jwt.sign({ email: user.email }, TOKEN_KEY, { expiresIn: "25m" });
 
-
         const editUser = {
           token: tokenId,
         };
@@ -128,7 +127,6 @@ export async function login(req, res, next) {
           new: true,
           runValidators: true,
         });
-
 
         res.status(200).json({
           message: "User Login Success",

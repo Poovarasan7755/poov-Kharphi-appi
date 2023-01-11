@@ -15,7 +15,7 @@ import homework from "../models/homeworkModels.js";
 import homeworkSchedule from "../models/homeworkScheduleModels.js";
 import { getPublicImagUrl, uploadBase64File } from "../utils/s3.js";
 import { OAuth2Client } from "google-auth-library";
-const client = new OAuth2Client("901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com");
+const client = new OAuth2Client("313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com");
 import lessonQuiz from "../models/lessonQuizModels.js";
 import LessonHomeWork from "../models/lessonHomeWorkModel.js";
 import jwt from "jsonwebtoken";
@@ -33,7 +33,7 @@ export async function signUp(req, res, next) {
       client
         .verifyIdToken({
           idToken: data.tokenId,
-          audience: "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com",
+          audience: "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com",
         })
         .then(async (response) => {
           const { email_verified, name, email } = response.payload;
