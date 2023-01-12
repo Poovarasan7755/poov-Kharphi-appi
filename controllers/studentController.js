@@ -29,6 +29,8 @@ const { FROM_EMAIL, FROM_EMAIL_DISPLAY_NAME } = process.env;
 export async function signUp(req, res, next) {
   try {
     const data = req.body;
+        console.log("data student signup", data);
+
     if (data.isGoogleLogin) {
       client
         .verifyIdToken({

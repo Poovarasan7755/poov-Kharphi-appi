@@ -88,9 +88,15 @@ export async function signUp(req, res, next) {
       const email = data.email;
       const firstName = data.firstName;
       const lastName = data.lastName;
+      console.log("email", email);
+      console.log("firstName", firstName);
+      console.log("lastName", lastName);
+      console.log("email", data.faceBookId);
 
       if (data.email && data.firstName && data.lastName && data.faceBookId) {
+        console.log("facebook condition success");
         const exist = await User.find({ email: email });
+        console.log("exist", exist);
         if (exist.length === 0) {
           const parent = await Parent.create({
             firstName: firstName,
