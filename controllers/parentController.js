@@ -47,8 +47,10 @@ export async function signUp(req, res, next) {
               });
 
               // const tokenId = getRandomNumberForMail();
-              const tokenId = getRandomNumberForMail();
-
+              // const tokenId = getRandomNumberForMail();
+              const tokenId = jwt.sign({ email: data.email, password: data.password }, TOKEN_KEY, {
+                expiresIn: "60m",
+              });
               const parentLogin = await User.create({
                 firstName: firstName,
                 lastName: lastName,
